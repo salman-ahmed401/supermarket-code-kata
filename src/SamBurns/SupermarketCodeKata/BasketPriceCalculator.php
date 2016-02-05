@@ -33,8 +33,14 @@ class BasketPriceCalculator
     {
         $total = 0.0;
 
+        // Calculate total for crisp
         foreach ($this->crisps as $crisp) {
             $total += $crisp->getUnitCost();
+        }
+
+        // Calculate total for drink
+        foreach ($this->drinks as $drink) {
+            $total += $drink->getUnitCost();
         }
 
         return $total;
