@@ -31,7 +31,12 @@ class BasketPriceCalculator
 
     public function getTotalPrice() : float
     {
-        /** @todo Implement this! */
-        return 0.00;
+        $total = 0.0;
+
+        foreach ($this->crisps as $crisp) {
+            $total += $crisp->getUnitCost();
+        }
+
+        return $total;
     }
 }
