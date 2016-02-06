@@ -32,23 +32,18 @@ class BasketPriceCalculator
     public function getTotalPrice() : float
     {
         $total = 0.0;
+        $itemTypes = [&$this->crisps, &$this->drinks, &$this->sandwiches];
 
         // Get total for meal deals
         $total += $this->getMealDealTotal();
 
-        // Calculate total for crisps
-        foreach ($this->crisps as $crisp) {
-            $total += $crisp->getUnitCost();
-        }
 
-        // Calculate total for drinks
-        foreach ($this->drinks as $drink) {
-            $total += $drink->getUnitCost();
-        }
-
-        // Calculate total for sandwiches
-        foreach ($this->sandwiches as $sandwich) {
-            $total += $sandwich->getUnitCost();
+        // Calculate for crisps, drinks and sandwiches
+        foreach ($itemTypes as $type) {
+            foreach ($type as $item) {
+               /** @var ItemInterface $item */
+                $total += $item->getUnitCost();
+            }
         }
 
         return $total;
