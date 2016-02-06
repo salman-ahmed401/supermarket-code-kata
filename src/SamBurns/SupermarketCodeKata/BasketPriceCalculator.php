@@ -16,6 +16,14 @@ class BasketPriceCalculator
     /** @var Sandwich[] */
     private $sandwiches = [];
 
+    /** @var array  */
+    private $itemTypes = [];
+
+    public function __construct()
+    {
+        $this->itemTypes = [&$this->crisps, &$this->drinks, &$this->sandwiches];
+    }
+
     public function addItem(ItemInterface $item)
     {
         if ($item instanceof Crisps) {
@@ -32,14 +40,12 @@ class BasketPriceCalculator
     public function getTotalPrice() : float
     {
         $total = 0.0;
-        $itemTypes = [&$this->crisps, &$this->drinks, &$this->sandwiches];
 
         // Get total for meal deals
         $total += $this->getMealDealTotal();
 
-
         // Calculate for crisps, drinks and sandwiches
-        foreach ($itemTypes as $type) {
+        foreach ($this->itemTypes as $type) {
             foreach ($type as $item) {
                /** @var ItemInterface $item */
                 $total += $item->getUnitCost();
